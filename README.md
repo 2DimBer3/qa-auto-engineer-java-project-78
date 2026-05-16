@@ -4,6 +4,7 @@
 ### GitHub Actions for App
 
 [![Java CI with Gradle](https://github.com/2DimBer3/qa-auto-engineer-java-project-78/actions/workflows/gradle.yml/badge.svg)](https://github.com/2DimBer3/qa-auto-engineer-java-project-78/actions/workflows/gradle.yml)
+[![SonarQube](https://github.com/2DimBer3/qa-auto-engineer-java-project-78/actions/workflows/build.yml/badge.svg)](https://github.com/2DimBer3/qa-auto-engineer-java-project-78/actions/workflows/build.yml)
 
 ### Sonar badges
 
