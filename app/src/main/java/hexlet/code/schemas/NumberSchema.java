@@ -23,10 +23,12 @@ public final class NumberSchema extends BaseSchema<Integer, NumberSchema> {
 
     @Override
     protected boolean check(Integer value) {
+        // 1. Проверка на положительность числа
         if (positive && value <= 0) {
             return false;
         }
 
+        // 2. Проверка на допустимый диапазон
         if (rangeMin != null && (value < rangeMin || value > rangeMax)) {
             return false;
         }
