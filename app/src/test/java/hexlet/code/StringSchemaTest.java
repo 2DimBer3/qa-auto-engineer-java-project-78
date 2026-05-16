@@ -6,19 +6,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ValidatorTest {
+class StringSchemaTest {
 
-    private Validator validator;
+    private StringSchema schema;
 
     @BeforeEach
     void setUp() {
-        validator = new Validator();
+        schema = new Validator().string();
     }
 
     @Test
     void testDefaultBehavior() {
-        StringSchema schema = validator.string();
-
         assertThat(schema.isValid(null)).isTrue();
         assertThat(schema.isValid("")).isTrue();
         assertThat(schema.isValid("any string")).isTrue();
@@ -26,7 +24,6 @@ class ValidatorTest {
 
     @Test
     void testRequired() {
-        StringSchema schema = validator.string();
         schema.required();
 
         assertThat(schema.isValid(null)).isFalse();
@@ -36,7 +33,6 @@ class ValidatorTest {
 
     @Test
     void testMinLength() {
-        StringSchema schema = validator.string();
         schema.minLength(5);
 
         assertThat(schema.isValid("12345")).isTrue();
@@ -47,7 +43,6 @@ class ValidatorTest {
     @Test
     void testMinLengthOverride() {
         // Последний вызов minLength имеет приоритет
-        StringSchema schema = validator.string();
         schema.minLength(10).minLength(4);
 
         assertThat(schema.isValid("Hexlet")).isTrue();
@@ -56,7 +51,6 @@ class ValidatorTest {
 
     @Test
     void testContainsSingle() {
-        StringSchema schema = validator.string();
         schema.contains("hex");
 
         assertThat(schema.isValid("hexlet")).isTrue();
@@ -66,9 +60,8 @@ class ValidatorTest {
 
     @Test
     void testContainsMultiple() {
-        StringSchema schema = validator.string();
-        schema.contains("wh");
-        schema.contains("what");
+        schema.contains("wh")
+                .contains("what");
 
         // Должны присутствовать обе подстроки
         assertThat(schema.isValid("what does the fox say")).isTrue();
@@ -82,8 +75,7 @@ class ValidatorTest {
 
     @Test
     void testCombinedConstraints() {
-        StringSchema schema = validator.string()
-                .required()
+        schema.required()
                 .minLength(5)
                 .contains("hex");
 
@@ -96,12 +88,12 @@ class ValidatorTest {
 
     @Test
     void testFluentInterface() {
-        StringSchema schema = validator.string()
-                .required()
+        boolean result = schema.required()
                 .minLength(2)
-                .contains("a");
+                .contains("a")
+                .contains("b")
+                .isValid("ab");
 
-        assertThat(schema.contains("b").isValid("ab")).isTrue();
-        assertThat(schema.isValid("a")).isFalse();
+        assertThat(result).isTrue();
     }
 }

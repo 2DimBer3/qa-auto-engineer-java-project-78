@@ -3,16 +3,10 @@ package hexlet.code.schemas;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public final class StringSchema {
+public final class StringSchema extends BaseSchema<String, StringSchema> {
 
-    private boolean required = false;
     private Integer minLength = null;
     private final Set<String> substrings = new LinkedHashSet<>();
-
-    public StringSchema required() {
-        this.required = true;
-        return this;
-    }
 
     public StringSchema minLength(int length) {
         this.minLength = length;
@@ -24,18 +18,18 @@ public final class StringSchema {
         return this;
     }
 
-    public boolean isValid(String str) {
-        // 1. Проверка обязательности
-        if (str == null || str.isEmpty()) {
-            return !required;
-        }
+    @Override
+    protected boolean isNullValue(String str) {
+        return str == null || str.isEmpty();
+    }
 
-        // 2. Проверка минимальной длины
+    protected boolean check(String str) {
+        // 1. Проверка минимальной длины
         if (minLength != null && str.length() < minLength) {
             return false;
         }
 
-        // 3. Проверка наличия всех указанных подстрок
+        // 2. Проверка наличия всех указанных подстрок
         for (String sub : substrings) {
             if (!str.contains(sub)) {
                 return false;
