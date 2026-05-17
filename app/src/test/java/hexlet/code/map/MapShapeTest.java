@@ -24,7 +24,7 @@ class MapShapeTest {
     void testShapeBasic() {
         MapSchema schema = validator.map();
 
-        Map<String, BaseSchema<?, ?>> schemas = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("firstName", validator.string().required());
         schemas.put("lastName", validator.string().required().minLength(2));
         schema.shape(schemas);
@@ -48,7 +48,7 @@ class MapShapeTest {
     @Test
     void testShapeMissingKey() {
         MapSchema schema = validator.map();
-        Map<String, BaseSchema<?, ?>> schemas = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("name", validator.string().required());
         schema.shape(schemas);
 
@@ -59,7 +59,7 @@ class MapShapeTest {
     @Test
     void testShapeWithoutRequiredOnSchema() {
         MapSchema schema = validator.map();
-        Map<String, BaseSchema<?, ?>> schemas = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("age", validator.number().positive());
         schema.shape(schemas);
 
@@ -77,7 +77,7 @@ class MapShapeTest {
     @Test
     void testShapeCombinedWithRequiredAndSizeof() {
         MapSchema schema = validator.map().required().sizeof(2);
-        Map<String, BaseSchema<?, ?>> schemas = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("firstName", validator.string().required());
         schemas.put("lastName", validator.string().required().minLength(2));
         schema.shape(schemas);
@@ -95,11 +95,11 @@ class MapShapeTest {
     @Test
     void testShapeOverridesPrevious() {
         MapSchema schema = validator.map();
-        Map<String, BaseSchema<?, ?>> schemas1 = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas1 = new HashMap<>();
         schemas1.put("key", validator.string().minLength(10));
         schema.shape(schemas1);
 
-        Map<String, BaseSchema<?, ?>> schemas2 = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas2 = new HashMap<>();
         schemas2.put("key", validator.string().minLength(2));
         schema.shape(schemas2); // перезаписывает
 
@@ -121,7 +121,7 @@ class MapShapeTest {
     @Test
     void testShapeWithMultipleTypes() {
         MapSchema schema = validator.map();
-        Map<String, BaseSchema<?, ?>> schemas = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("name", validator.string().required().contains("Smith"));
         schemas.put("age", validator.number().positive().range(18, 120));
         schema.shape(schemas);
@@ -145,7 +145,7 @@ class MapShapeTest {
     @Test
     void testShapeDoesNotValidateExtraKeys() {
         MapSchema schema = validator.map();
-        Map<String, BaseSchema<?, ?>> schemas = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("requiredField", validator.string().required());
         schema.shape(schemas);
 
@@ -158,7 +158,7 @@ class MapShapeTest {
     @Test
     void testShapeWithNullKeyValue() {
         MapSchema schema = validator.map();
-        Map<String, BaseSchema<?, ?>> schemas = new HashMap<>();
+        Map<String, BaseSchema<?>> schemas = new HashMap<>();
         schemas.put("nullableField", validator.string()); // без required
         schema.shape(schemas);
 

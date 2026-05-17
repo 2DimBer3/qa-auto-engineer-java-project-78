@@ -2,16 +2,22 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public final class MapSchema extends BaseSchema<Map<?, ?>, MapSchema> {
+public final class MapSchema extends BaseSchema<Map<?, ?>> {
     private Integer size = null;
-    private Map<String, BaseSchema<?, ?>> shapeSchemas = null;
+    private Map<String, BaseSchema<?>> shapeSchemas = null;
+
+    @Override
+    public MapSchema required() {
+        super.required();
+        return this;
+    }
 
     public MapSchema sizeof(int value) {
         this.size = value;
         return this;
     }
 
-    public void shape(Map<String, BaseSchema<?, ?>> schemas) {
+    public void shape(Map<String, BaseSchema<?>> schemas) {
         this.shapeSchemas = schemas;
     }
 
@@ -29,13 +35,13 @@ public final class MapSchema extends BaseSchema<Map<?, ?>, MapSchema> {
 
         // 2. Валидация значений по заданным ключам
         if (shapeSchemas != null) {
-            for (Map.Entry<String, BaseSchema<?, ?>> entry : shapeSchemas.entrySet()) {
+            for (Map.Entry<String, BaseSchema<?>> entry : shapeSchemas.entrySet()) {
                 String key = entry.getKey();
-                BaseSchema<?, ?> schema = entry.getValue();
+                BaseSchema<?> schema = entry.getValue();
                 Object fieldValue = value.get(key);
 
                 @SuppressWarnings("unchecked")
-                BaseSchema<Object, ?> rawSchema = (BaseSchema<Object, ?>) schema;
+                BaseSchema<Object> rawSchema = (BaseSchema<Object>) schema;
                 if (!rawSchema.isValid(fieldValue)) {
                     return false;
                 }

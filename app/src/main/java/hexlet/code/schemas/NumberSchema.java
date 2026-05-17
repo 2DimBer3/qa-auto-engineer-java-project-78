@@ -1,9 +1,15 @@
 package hexlet.code.schemas;
 
-public final class NumberSchema extends BaseSchema<Integer, NumberSchema> {
+public final class NumberSchema extends BaseSchema<Integer> {
     private boolean positive = false;
     private Integer rangeMin = null;
     private Integer rangeMax = null;
+
+    @Override
+    public NumberSchema required() {
+        super.required();
+        return this;
+    }
 
     public NumberSchema positive() {
         this.positive = true;
