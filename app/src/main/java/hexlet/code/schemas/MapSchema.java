@@ -1,5 +1,6 @@
 package hexlet.code.schemas;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
@@ -17,8 +18,8 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         return this;
     }
 
-    public void shape(Map<String, BaseSchema<?>> schemas) {
-        this.shapeSchemas = schemas;
+    public void shape(Map<String, ? extends BaseSchema<?>> schemas) {
+        this.shapeSchemas = new HashMap<>(schemas);
     }
 
     @Override
