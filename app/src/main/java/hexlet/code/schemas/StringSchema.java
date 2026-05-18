@@ -1,12 +1,9 @@
 package hexlet.code.schemas;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 public final class StringSchema extends BaseSchema<String> {
 
     private Integer minLength = null;
-    private final Set<String> substrings = new LinkedHashSet<>();
+    private String substring = null;
 
     @Override
     public StringSchema required() {
@@ -19,8 +16,8 @@ public final class StringSchema extends BaseSchema<String> {
         return this;
     }
 
-    public StringSchema contains(String substring) {
-        this.substrings.add(substring);
+    public StringSchema contains(String value) {
+        this.substring = value;
         return this;
     }
 
@@ -29,17 +26,15 @@ public final class StringSchema extends BaseSchema<String> {
         return str == null || str.isEmpty();
     }
 
-    protected boolean check(String str) {
+    protected boolean check(String value) {
         // 1. Проверка минимальной длины
-        if (minLength != null && str.length() < minLength) {
+        if (minLength != null && value.length() < minLength) {
             return false;
         }
 
-        // 2. Проверка наличия всех указанных подстрок
-        for (String sub : substrings) {
-            if (!str.contains(sub)) {
-                return false;
-            }
+        // 2. Проверка наличия указанной подстроки
+        if (substring != null && !value.contains(substring)) {
+            return false;
         }
 
         return true;

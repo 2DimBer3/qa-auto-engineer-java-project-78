@@ -44,6 +44,13 @@ class NumberSchemaTest {
     }
 
     @Test
+    void testPositiveOverride() {
+        schema.positive().positive();
+        assertThat(schema.isValid(5)).isTrue();
+        assertThat(schema.isValid(-5)).isFalse();
+    }
+
+    @Test
     void testRange() {
         schema.range(5, 10);
 
@@ -51,6 +58,14 @@ class NumberSchemaTest {
         assertThat(schema.isValid(10)).isTrue();
         assertThat(schema.isValid(4)).isFalse();
         assertThat(schema.isValid(11)).isFalse();
+    }
+
+    @Test
+    void testRangeOverride() {
+        schema.range(1, 5)
+                .range(10, 20);
+        assertThat(schema.isValid(15)).isTrue();
+        assertThat(schema.isValid(3)).isFalse();
     }
 
     @Test

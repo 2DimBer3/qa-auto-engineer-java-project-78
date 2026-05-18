@@ -60,11 +60,12 @@ class StringSchemaTest {
 
     @Test
     void testContainsMultiple() {
-        schema.contains("wh")
+        schema.contains("wt")
                 .contains("what");
 
-        // Должны присутствовать обе подстроки
+        // "wt" заменилось на "what"
         assertThat(schema.isValid("what does the fox say")).isTrue();
+        assertThat(schema.isValid("wt does the fox say")).isFalse();
 
         schema.contains("whatthe");
         assertThat(schema.isValid("what does the fox say")).isFalse();

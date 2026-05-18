@@ -49,6 +49,18 @@ class MapSchemaTest {
     }
 
     @Test
+    void testSizeofOverride() {
+        schema.sizeof(2)
+                .sizeof(3);
+        Map<String, String> data = new HashMap<>();
+        data.put("a", "1");
+        data.put("b", "2");
+        assertThat(schema.isValid(data)).isFalse(); // размер 2, а требуется 3
+        data.put("c", "3");
+        assertThat(schema.isValid(data)).isTrue();
+    }
+
+    @Test
     void testRequiredAndSizeof() {
         schema.required()
                 .sizeof(2);
